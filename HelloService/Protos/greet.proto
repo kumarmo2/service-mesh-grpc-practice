@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+option csharp_namespace = "HelloService";
+
+package greet;
+
+// The greeting service definition.
+service Greeter {
+  // Sends a greeting
+  rpc SayHello (HelloRequest) returns (HelloReply);
+  rpc CreatePerson (CreatePersonRequest) returns (Person);
+  rpc GetAllPersons (google.protobuf.Empty) returns (stream Person);
+}
+
+// The request message containing the user's name.
+message HelloRequest {
+  string name = 1;
+}
+
+message CreatePersonRequest {
+  string name = 1;
+}
+
+message Person {
+  int64 id = 1;
+  string name = 2;
+}
+
+// The response message containing the greetings.
+message HelloReply {
+  string message = 1;
+}
