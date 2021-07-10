@@ -1,7 +1,9 @@
+using System;
 using System.Net;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Configuration;
 
 namespace HelloService
 {
@@ -20,7 +22,10 @@ namespace HelloService
                 {
                     webBuilder.ConfigureKestrel(options =>
                     {
-                        options.Listen(IPAddress.Any, 7000, listOptions =>
+                        // options.Configuration.
+                        var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+                        var port = Convert.ToInt32(config["service:port"] ?? "6000");
+                        options.Listen(IPAddress.Any, port, listOptions =>
                         {
                             listOptions.Protocols = HttpProtocols.Http2;
                         });

@@ -2,7 +2,6 @@
   "log_level": "INFO",
   "server": true,
   "ui": true,
-  "encrypt": "xxxxxxxxxxxxxx",
   "leave_on_terminate": true,
   "data_dir": "/opt/consul/data",
   "datacenter": "ap-south-1",
