@@ -1,7 +1,9 @@
 {
   "log_level": "INFO",
   "server": true,
-  "ui": true,
+  "ui_config": {
+    "enabled": true
+  },
   "leave_on_terminate": true,
   "data_dir": "/home/kumarmo2/csharp/consul-grpc-practice/consul_data",
   "datacenter": "my-dc-1",

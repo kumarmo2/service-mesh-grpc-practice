@@ -1,0 +1,49 @@
+node:
+  cluster: ENVOY_XDS_CLUSTER
+  id: sdsaf
+
+# admin web panel
+admin:
+  access_log_path: ./admin_logs
+  address:
+    socket_address:
+      address: 0.0.0.0
+      port_value: 9902
+
+static_resources:
+  clusters:
+    - name: xds-cluster
+      type: strict_dns
+      connect_timeout: 2s
+      typed_extension_protocol_options:
+        envoy.extensions.upstreams.http.v3.HttpProtocolOptions:
+          "@type": type.googleapis.com/envoy.extensions.upstreams.http.v3.HttpProtocolOptions
+          explicit_http_config:
+            http2_protocol_options:
+              # Configure an HTTP/2 keep-alive to detect connection issues and reconnect
+              # to the admin server if the connection is no longer responsive.
+              connection_keepalive:
+                interval: 30s
+                timeout: 5s
+      lb_policy: ROUND_ROBIN
+      load_assignment:
+        cluster_name: xds-cluster
+        endpoints:
+          - lb_endpoints:
+              - endpoint:
+                  address:
+                    socket_address:
+                      address: host.docker.internal
+                      port_value: 8502
+
+dynamic_resources:
+  cds_config:
+    resource_api_version: V3
+    ads: {}
+
+  ads_config:
+    api_type: delta_grpc
+    transport_api_version: v3
+    grpc_services:
+      - envoy_grpc:
+          cluster_name: xds-cluster

@@ -4,10 +4,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Consul;
-using System.Net;
 using System;
 using Microsoft.Extensions.Configuration;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace HelloService
@@ -25,6 +23,7 @@ namespace HelloService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddGrpc();
+            services.AddHealthChecks();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,10 +39,11 @@ namespace HelloService
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGrpcService<GreeterService>();
+                // endpoints.MapHealthChecks("/health");
 
                 endpoints.MapGet("/", async context =>
                 {
-                    await context.Response.WriteAsync("Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
+                    await context.Response.WriteAsync("Ok");
                 });
             });
             // RegisterServiceInCluster();
@@ -85,11 +85,14 @@ namespace HelloService
                 var id = $"{serviceName}-{Guid.NewGuid().ToString().Split('-', 2)[0]}";
                 serviceId = id;
                 var port = Convert.ToInt32(_config["service:port"]);
+
+
                 var x = new AgentServiceRegistration
                 {
                     Name = _config["service:name"],
                     ID = id,
                     Port = port,
+
                 };
                 await client.Agent.ServiceRegister(x);
             }
