@@ -15,16 +15,12 @@ static_resources:
     - name: xds-cluster
       type: strict_dns
       connect_timeout: 2s
-      typed_extension_protocol_options:
-        envoy.extensions.upstreams.http.v3.HttpProtocolOptions:
-          "@type": type.googleapis.com/envoy.extensions.upstreams.http.v3.HttpProtocolOptions
-          explicit_http_config:
-            http2_protocol_options:
-              # Configure an HTTP/2 keep-alive to detect connection issues and reconnect
-              # to the admin server if the connection is no longer responsive.
-              connection_keepalive:
-                interval: 30s
-                timeout: 5s
+
+      http2_protocol_options: {}
+      upstream_connection_options:
+        # this is required so that the connection is kept alive with the management server
+        tcp_keepalive: {}
+
       lb_policy: ROUND_ROBIN
       load_assignment:
         cluster_name: xds-cluster
