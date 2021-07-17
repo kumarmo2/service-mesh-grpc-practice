@@ -7,7 +7,7 @@
   "leave_on_terminate": true,
   "data_dir": "/home/kumarmo2/csharp/consul-grpc-practice/consul_data",
   "datacenter": "my-dc-1",
-  "client_addr": "0.0.0.0", 
+  "client_addr": "127.0.0.1", 
   "bind_addr": "0.0.0.0",
   "ports": {
     "grpc": 8502

@@ -47,14 +47,14 @@ namespace HelloService
                 });
             });
             // RegisterServiceInCluster();
-            applicationLifetime.ApplicationStarted.Register(OnStarted);
-            applicationLifetime.ApplicationStopping.Register(OnStopping);
+            // applicationLifetime.ApplicationStarted.Register(OnStarted);
+            // applicationLifetime.ApplicationStopping.Register(OnStopping);
 
-            Console.CancelKeyPress += (sender, eventArgs) =>
-            {
-                applicationLifetime.StopApplication();
-                eventArgs.Cancel = true;
-            };
+            // Console.CancelKeyPress += (sender, eventArgs) =>
+            // {
+            //     applicationLifetime.StopApplication();
+            //     eventArgs.Cancel = true;
+            // };
 
         }
 

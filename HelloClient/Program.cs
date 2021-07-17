@@ -13,11 +13,11 @@ namespace HelloClient
     {
         static async Task Main(string[] args)
         {
-            // await ConnectUsingEnvoy();
+            await ConnectUsingEnvoy();
             // await ConnectUsingConsul();
 
-            var channel = GrpcChannel.ForAddress($"http://localhost:{6502}");
-            var invoker = channel.CreateCallInvoker();
+            // var channel = GrpcChannel.ForAddress($"http://localhost:{6502}");
+            // var invoker = channel.CreateCallInvoker();
             // channel.
         }
 
@@ -83,7 +83,8 @@ namespace HelloClient
         static async Task ConnectUsingEnvoy()
         {
             Console.WriteLine("Hello World!");
-            var channel = GrpcChannel.ForAddress("http://localhost:8000");
+            // var channel = GrpcChannel.ForAddress("http://localhost:8000");
+            var channel = GrpcChannel.ForAddress("http://localhost:22000");
             var client = new Greeter.GreeterClient(channel);
 
             for (var i = 0; true; i++)
